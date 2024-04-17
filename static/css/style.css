@@ -1,0 +1,48 @@
+/* Reset default browser styles */
+body, h1, ul, li, form, input {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style the header */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style the navigation menu */
+ul {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Style the form */
+form {
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="submit"] {
+    padding: 10px;
+    margin-right: 10px;
+}
+
+input[type="submit"] {
+    background-color: #006400;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Add more styles as needed */

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+     <style>
+        /* Basic CSS styles for the navbar */
+        body {
+            margin: 0;
+            padding:0;
+            font-family: Arial, sans-serif;
+            background-image: url('static/img/bg.jpg');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            animation: fadeInAnimation 2s ease-in-out forwards; /* Animation for fading in content */
+        }
+
+        @keyframes fadeInAnimation {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            padding: 0 15px;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav-links li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sticky navbar style */
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+                 /* Styles for the "Train Classifier" button */
+        .train-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 30px; /* Increase padding for better visibility */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px; /* Increase font size for better readability */
+            margin-top: 330px;
+            margin-left:820px;
+            cursor: pointer;
+            border-radius: 25px; /* Round the corners */
+            transition: background-color 0.3s, transform 0.3s; /* Add transition for smoother hover effect */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        /* Hover effect */
+        .train-button:hover {
+            background-color: #45a049; /* Darker green */
+            transform: scale(1.05); /* Scale up slightly on hover */
+        }
+
+
+        /* Progress bar styles */
+        .progress-container {
+            margin-top: 20px;
+            display: none; /* Initially hide the progress container */
+            text-align: center; /* Center the progress bar */
+        }
+
+        .progress-bar {
+            width: 50%; /* Make the progress bar narrower */
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            display: inline-block; /* Make the progress bar inline */
+        }
+
+        .progress {
+            width: 0%;
+            height: 20px; /* Reduce the height of the progress bar */
+            background-color: #4CAF50; /* Green */
+            border-radius: 5px;
+        }
+
+     /* Footer styles */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-links {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .footer-links li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        .footer-links li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links li a:hover {
+            text-decoration: underline;
+        }
+
+         /* Loader animation styles */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Ensure it appears above other elements */
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Hide content until loaded */
+        body {
+            visibility: hidden;
+        }
+    </style>
+
+
+
+</head>
+<body>
+ <div class="loader-container">
+    <div class="loader"></div>
+</div>
+
+<!-- Content will be loaded after the loader -->
+<div id="content" style="display: none;">
+    <nav>
+        <div class="nav-content">
+            <div class="logo">
+                <a href="#">Welcome to Face Recognition App</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('generate_dataset') }}">Generate Dataset</a></li>
+                <li><a href="{{ url_for('detect_faces') }}">Detect Faces</a></li>
+                <li><a href="{{ url_for('users') }}">List of Users</a></li>
+                <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Form to trigger classifier training -->
+    <form id="train-form" action="{{ url_for('train_classifier') }}" method="post">
+        <button id="train-button" class="train-button" type="submit">Train Classifier</button>
+    </form>
+    <div class="progress-container" id="progress-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+    <div id="message" style="display: none; color:black; font-size: 20px;"><center>Training in progress...</center></div>
+
+    <!-- Flash messages display -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li style="color:black; font-size: 20px;"><center>{{ message }}</center></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <footer>
+        <ul class="footer-links">
+            <li><a href="">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+        </ul>
+        <p>&copy; 2024 Group 4 Face Recognition. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript to show progress bar or message box during training
+        const trainForm = document.getElementById('train-form');
+        const progressBar = document.getElementById('progress');
+        const progressContainer = document.getElementById('progress-container');
+        const message = document.getElementById('message');
+
+        trainForm.addEventListener('submit', function() {
+            // Show progress container and message
+            progressContainer.style.display = 'block';
+            message.style.display = 'block';
+
+            // Simulate progress for demonstration purposes
+            let progress = 0;
+            const interval = setInterval(function() {
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // Hide progress container and message
+                    progressContainer.style.display = 'none';
+                    message.style.display = 'none';
+                }
+            }, 1000); // Change the interval to control the speed of progress
+        });
+
+        // Show content once page is fully loaded
+        window.onload = function() {
+            document.querySelector('.loader-container').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.body.style.visibility = 'visible';
+        };
+    </script>
+</div>
+</body>
+</html>

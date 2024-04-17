@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detect Faces</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <h1>Detect Faces</h1>
+    <form id="detect-faces-form" action="{{ url_for('detect_faces') }}" method="post">
+        <input type="submit" value="Detect Faces">
+        <h1>Press Enter to Quit!</h1>
+    </form>
+
+</body>
+</html>
